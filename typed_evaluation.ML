@@ -33,7 +33,7 @@ fun register binding source context =
     val id = serial ()
     val slots = snd (Data.get context)
     val (_, slots') = Name_Space.define context true (binding, id) slots
-    
+
     val decl =
       ML_Lex.read ("val typed_evaluation_token" ^ ML_Syntax.print_int id ^ ": (") @ parsed @ ML_Lex.read ") Typed_Evaluation.token =" @
       ML_Lex.read "(let exception Data of" @ parsed @ ML_Lex.read ";" @
@@ -67,7 +67,7 @@ with
 fun token wrap unwrap id ml_type =
   Token {wrap = wrap, unwrap = unwrap, id = id, ml_type = ml_type}
 
-fun fulfill (Token {wrap, ...}) = Data.map o apfst o K o SOME o Exn.map_result wrap
+fun fulfill (Token {wrap, ...}) = Data.map o apfst o K o SOME o Exn.map_res wrap
 
 fun eval_exn (Token {id, ml_type, unwrap, ...}) source ctxt =
   let
@@ -93,7 +93,7 @@ fun eval_exn (Token {id, ml_type, unwrap, ...}) source ctxt =
         | SOME r => Exn.Res r)
     | SOME (Exn.Exn exn) =>
         if Exn.is_interrupt exn then
-          reraise exn
+          Exn.reraise exn
         else
           Exn.Exn exn
   end
