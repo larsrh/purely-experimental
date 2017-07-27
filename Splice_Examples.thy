@@ -2,7 +2,6 @@ theory Splice_Examples
 imports Main Splice
 begin
 
-
 ML \<open>
   val ctxt = @{context};
   val input = \<open>\<lambda>x. x + y + SPLICE \<open>Bound 0\<close>\<close>;
@@ -10,6 +9,7 @@ ML \<open>
   val t = Syntax.read_term ctxt (Syntax.implode_input input);
 \<close>
 
+ML\<open>@{term x}\<close>
 
 term "SPLICE \<open>@{const Nil(int)}\<close>"
 term "(\<lambda>x. SPLICE \<open>Bound 0\<close>)"
@@ -19,6 +19,7 @@ term "SPLICE \<open>@{const zero_nat_inst.zero_nat}\<close> + SPLICE \<open>@{co
 ML\<open>val mythm = @{thm conjI[where P = True]}\<close>
 
 lemmas mythm = [[splice \<open>mythm\<close>]]
+
 
 lemma "0 < SPLICE \<open>HOLogic.mk_number @{typ nat} (1+1)\<close>"
 oops

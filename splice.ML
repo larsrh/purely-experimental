@@ -41,6 +41,6 @@ fun term_translation res ctxt args =
   end
 
 fun thm_attribute input =
-  Thm.rule_attribute (fn context => K (eval_thm input (Context.proof_of context)))
+  Thm.rule_attribute [] (fn context => K (eval_thm input (Context.proof_of context)))
 
 end

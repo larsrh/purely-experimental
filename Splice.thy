@@ -17,6 +17,7 @@ parse_translation
   \<open>[(@{syntax_const "_cartouche_splice"}, Splice.term_translation false),
     (@{syntax_const "_cartouche_splice_res"}, Splice.term_translation true)]\<close>
 
+
 attribute_setup splice = \<open>Scan.lift Args.cartouche_input >> Splice.thm_attribute\<close>
 
 end
