@@ -39,10 +39,13 @@ fun print_translation args =
     fun from_num (Const (@{const_syntax numeral}, _) $ t) = dest_num t
     fun dest_list (Const (@{const_syntax List.Nil}, _)) = []
       | dest_list (Const (@{const_syntax List.Cons}, _) $ t $ ts) = t :: dest_list ts
+    fun chr' 92 = "\\\\" (* Backspace *)
+      | chr' 127 = "\\127" (* DEL *)
+      | chr' x = if x <= 31 then "\\0" ^ Value.print_int x else chr x (* Lower ASCII block *)
     val splice =
       dest_list
       #> map dest_list
-      #> map (map (chr o from_num))
+      #> map (map (chr' o from_num))
       #> map implode
       #> implode
   in
